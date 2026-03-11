@@ -1,0 +1,105 @@
+/* Configuração padrão do documento */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    outline: none;
+}
+
+/* Background da página */
+body {
+    background-color: #2E8B57;
+}
+
+/* Caixa Principal */
+main {
+    width: 375px;
+    background-color: #F4F4F4;
+    border-radius: 20px;
+    margin: 30px auto  64px;
+    padding: 44px 24px 23px;
+}
+
+/* Labels da página */
+label {
+    color: #777777;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Selects e inputs da página */
+select, input {
+    background-color: #fff;
+    border-radius: 4px;
+    height: 48px;
+    width: 100%;
+    margin-bottom: 24px;
+    appearance: none;
+    padding-left: 18px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #555555;
+}
+
+/* Botão Converter */
+button {
+    background-color: #772FD3;
+    border-radius: 5px;
+    width: 100%;
+    display: block;
+    border: none;
+    height: 48px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Passando o mouse no botão Converter */
+button:hover {
+    opacity: 0.8;
+
+}
+
+/* Clicando no botão Converter */
+button:active {
+    opacity: 0.6;
+}
+
+/* Seções da página */
+section {
+    border: 1px solid #772FD3;
+    border-radius: 20px;
+    margin-top: 36px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Seta para baixo */
+.arrowImg {
+    margin: 15px 0;
+}
+
+/* Caixa quem contém as bandeiras, nomes das moedas e os símbolos das moedas */
+.currencyBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Formatação dos nomes das moedas */
+.currency {
+    color: #777777;
+}
+
+/* Formatação dos valores das moedas */
+.currencyValue, .currencyValueToConvert {
+    color: #555555;
+    font-weight: 700;
+    font-size: 20px;
+
+}
