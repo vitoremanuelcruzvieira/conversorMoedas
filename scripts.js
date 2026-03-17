@@ -22,58 +22,69 @@ function validateForm() {
 }
 
 // Função que efetiva a conversão das moedas escolhidas
-function convertValues() {
-    
-    // Lista todas as moedas utilizadas na conversão
-    const exchangeRates = {
-        real: { locale: "pt-BR", currency: "BRL", rate: 1 },
-        dolar: { locale: "en-US", currency: "USD", rate: 5.16 },
-        euro: { locale: "en-US", currency: "EUR", rate: 5.96 },
-        libra: { locale: "en-GB", currency: "GBP", rate: 6.91 },
-        // Aqui você pode adicionar mais moedas...
-    };
+async function convertValues() {
 
-    
-    // Realiza a formatação das moedas
-    const formatCurrency = (value, locale, currency) =>
-        new Intl.NumberFormat(locale, {
-            style: "currency",
-            currency
-        }).format(value);
+    try {
 
+        const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,CAD-BRL,EUR-BRL,GBP-BRL,BTC-BRL").then(response => response.json())
 
-    // Coloca na tela o valor informado pelo usuário, o valor da moeda inicial formatada e o valor da moeda convertida formatada
-    const inputCurrencyValue = document.querySelector(".inputCurrency").value
-    const currencyValueToConvert = document.querySelector(".currencyValueToConvert")
-    const currencyValueConverted = document.querySelector(".currencyValue")
+        // Lista todas as moedas utilizadas na conversão
+        const exchangeRates = {
+            real: { locale: "pt-BR", currency: "BRL", rate: 1 },
+            dolar: { locale: "en-US", currency: "USD", rate: data.USDBRL.high },
+            canada: { locale: "ca-US", currency: "CAD", rate: data.CADBRL.high },
+            euro: { locale: "en-US", currency: "EUR", rate: data.EURBRL.high },
+            libra: { locale: "en-GB", currency: "GBP", rate: data.GBPBRL.high },
+            bitcoin: { locale: "de-DE", currency: "BTC", rate: data.BTCBRL.high },
+            // Aqui você pode adicionar mais moedas...
+        };
 
-  
-    // Obtém as moedas selecionadas pelo usuário
-    const from = currencySelectToConvert.value;
-    const to = currencySelectConverted.value;
+        // Realiza a formatação das moedas
+        const formatCurrency = (value, locale, currency, maximumFractionDigits) =>
+            new Intl.NumberFormat(locale, {
+                style: "currency",
+                currency,
+                maximumFractionDigits
+            }).format(value);
 
 
-    // A conversão será realizada se somente for digitado números
-    const amount = Number(inputCurrencyValue);
+        // Coloca na tela o valor informado pelo usuário, o valor da moeda inicial formatada e o valor da moeda convertida formatada
+        const inputCurrencyValue = document.querySelector(".inputCurrency").value
+        const currencyValueToConvert = document.querySelector(".currencyValueToConvert")
+        const currencyValueConverted = document.querySelector(".currencyValue")
 
-    // Verifica se os selects possuem valores válidos
-    if (exchangeRates[from] && exchangeRates[to] && amount) {
-        const fromConfig = exchangeRates[from];
-        const toConfig = exchangeRates[to];
 
-        // Valor inicial
-        currencyValueToConvert.innerHTML = formatCurrency(amount, fromConfig.locale, fromConfig.currency);
+        // Obtém as moedas selecionadas pelo usuário
+        const from = currencySelectToConvert.value;
+        const to = currencySelectConverted.value;
 
-        // Converte primeiro o valor para real e depois para moeda destino
-        // Convertendo o valor para real (multiplicando ou dividindo dependendo da moeda)
-        const amountInReal = amount * fromConfig.rate;
 
-        // Agora converte para moeda destino dividindo pelo rate da moeda destino
-        const convertedAmount = amountInReal / toConfig.rate;
+        // A conversão será realizada se somente for digitado números
+        const amount = Number(inputCurrencyValue);
 
-        // Valor convertido
-        currencyValueConverted.innerHTML = formatCurrency(convertedAmount, toConfig.locale, toConfig.currency);
+        // Verifica se os selects possuem valores válidos
+        if (exchangeRates[from] && exchangeRates[to] && amount) {
+            const fromConfig = exchangeRates[from];
+            const toConfig = exchangeRates[to];
 
+            // Valor inicial
+            currencyValueToConvert.innerHTML = formatCurrency(amount, fromConfig.locale, fromConfig.currency, 2);
+
+            // Converte primeiro o valor para real e depois para moeda destino
+            // Convertendo o valor para real (multiplicando ou dividindo dependendo da moeda)
+            const amountInReal = amount * fromConfig.rate;
+
+            // Agora converte para moeda destino dividindo pelo rate da moeda destino
+            const convertedAmount = amountInReal / toConfig.rate;
+
+            // Valor convertido
+            currencyValueConverted.innerHTML = formatCurrency(convertedAmount, toConfig.locale, toConfig.currency, 8);
+
+        }
+
+    } catch (e) {
+        console.error(e);
+        alert("Falha ao carregar taxas. Tente novamente.");
     }
 }
 
@@ -94,6 +105,11 @@ function changeCurrencyToConvert() {
             imgSrc: './assets/dolar.png',
             name: 'US$ 0.00'
         },
+        canada: {
+            fullName: 'Dólar canadense',
+            imgSrc: './assets/dolarCanadense.png',
+            name: 'CA$ 0.00'
+        },
         euro: {
             fullName: 'Euro',
             imgSrc: './assets/euro.png',
@@ -103,6 +119,11 @@ function changeCurrencyToConvert() {
             fullName: 'Libra',
             imgSrc: './assets/libra.png',
             name: '£ 0.00'
+        },
+        bitcoin: {
+            fullName: 'Bitcoin',
+            imgSrc: './assets/bitcoin.png',
+            name: '₿ 0'
         },
         // Adicione outras moedas aqui
     };
@@ -140,6 +161,11 @@ function changeCurrencyConverted() {
             imgSrc: './assets/dolar.png',
             name: 'US$ 0.00'
         },
+        canada: {
+            fullName: 'Dólar canadense',
+            imgSrc: './assets/dolarCanadense.png',
+            name: 'CA$ 0.00'
+        },
         euro: {
             fullName: 'Euro',
             imgSrc: './assets/euro.png',
@@ -149,6 +175,11 @@ function changeCurrencyConverted() {
             fullName: 'Libra',
             imgSrc: './assets/libra.png',
             name: '£ 0.00'
+        },
+        bitcoin: {
+            fullName: 'Bitcoin',
+            imgSrc: './assets/bitcoin.png',
+            name: '₿ 0'
         },
         // Adicione outras moedas aqui
     };
