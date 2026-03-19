@@ -26,7 +26,7 @@ async function convertValues() {
 
     try {
 
-        const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,CAD-BRL,EUR-BRL,GBP-BRL,BTC-BRL").then(response => response.json())
+        const data = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,CAD-BRL,EUR-BRL,GBP-BRL,JPY-BRL,BTC-BRL").then(response => response.json())
 
         // Lista todas as moedas utilizadas na conversão
         const exchangeRates = {
@@ -35,6 +35,7 @@ async function convertValues() {
             canada: { locale: "ca-US", currency: "CAD", rate: data.CADBRL.high },
             euro: { locale: "en-US", currency: "EUR", rate: data.EURBRL.high },
             libra: { locale: "en-GB", currency: "GBP", rate: data.GBPBRL.high },
+            iene: { locale: "ja-JP", currency: "JPY", rate: data.JPYBRL.high },
             bitcoin: { locale: "de-DE", currency: "BTC", rate: data.BTCBRL.high },
             // Aqui você pode adicionar mais moedas...
         };
@@ -120,6 +121,11 @@ function changeCurrencyToConvert() {
             imgSrc: './assets/libra.png',
             name: '£ 0.00'
         },
+        iene: {
+            fullName: 'Iene',
+            imgSrc: './assets/iene.png',
+            name: '¥ 0.00'
+        },
         bitcoin: {
             fullName: 'Bitcoin',
             imgSrc: './assets/bitcoin.png',
@@ -175,6 +181,11 @@ function changeCurrencyConverted() {
             fullName: 'Libra',
             imgSrc: './assets/libra.png',
             name: '£ 0.00'
+        },
+        iene: {
+            fullName: 'Iene',
+            imgSrc: './assets/iene.png',
+            name: '¥ 0.00'
         },
         bitcoin: {
             fullName: 'Bitcoin',
